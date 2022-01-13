@@ -27,13 +27,32 @@ class Products with ChangeNotifier {
             'https://news.cgtn.com/news/2021-04-25/2021-World-Penguin-Day-Star-of-Antarctica-ZK4w70wnew/img/f0cad53c56784c59bc941418b953f00c/f0cad53c56784c59bc941418b953f00c-1920.jpeg')
   ];
 
+  // var _showFavoritesOnly = false;
+
   List<Product> get items {
+    // if (_showFavoritesOnly) {
+    //   return _items.where((product) => product.isFavorite).toList();
+    // }
     return [..._items];
+  }
+
+  List<Product> get favoriteItems {
+    return _items.where((product) => product.isFavorite).toList();
   }
 
   Product findById(String id) {
     return _items.firstWhere((product) => product.id == id);
   }
+
+  // void showFavoritesOnly() {
+  //   _showFavoritesOnly = true;
+  //   notifyListeners();
+  // }
+
+  // void showAll() {
+  //   _showFavoritesOnly = false;
+  //   notifyListeners();
+  // }
 
   void addProduct() {
     // _items.add(value);

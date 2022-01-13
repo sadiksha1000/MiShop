@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myshopapp/home.dart';
+import 'package:myshopapp/providers/cart.dart';
 import 'package:myshopapp/screens/product_detail_screen.dart';
 import 'package:myshopapp/screens/products_overview_screen.dart';
 import './providers/products_provider.dart';
@@ -14,27 +15,35 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
+        )
+      ],
       child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.lightGreen,
-            accentColor: Colors.lightBlue,
-            fontFamily: 'Lato',
-            textTheme: TextTheme(
-              headline4: TextStyle(fontSize: 23, fontFamily: 'Lato-Bold'),
-              bodyText2: TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-                fontFamily: 'Lato-Regular',
-              ),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.lightGreen,
+          accentColor: Colors.lightBlue,
+          fontFamily: 'Lato',
+          textTheme: TextTheme(
+            headline4: TextStyle(fontSize: 23, fontFamily: 'Lato-Bold'),
+            bodyText2: TextStyle(
+              fontSize: 15,
+              color: Colors.white,
+              fontFamily: 'Lato-Regular',
             ),
           ),
-          home: ProductsOverviewScreen(),
-          routes: {
-            ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-          }),
+        ),
+        home: ProductsOverviewScreen(),
+        routes: {
+          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+        },
+      ),
     );
   }
 }
