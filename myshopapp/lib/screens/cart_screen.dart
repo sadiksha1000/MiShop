@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myshopapp/providers/cart.dart';
+import 'package:myshopapp/providers/orders.dart';
 import 'package:myshopapp/widgets/cart_item.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+    final orders = Provider.of<Orders>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -35,7 +37,7 @@ class CartScreen extends StatelessWidget {
                     ),
                     Chip(
                       label: Text(
-                        '\$${cart.totalAmount}',
+                        '\$${cart.totalAmount.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -44,7 +46,16 @@ class CartScreen extends StatelessWidget {
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        orders.addOrder(
+                          cart.items.values.toList(),
+                          cart.totalAmount,
+                        );
+                        cart.clear();
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                      ),
                       child: Text(
                         'ORDER NOW',
                         style: TextStyle(
@@ -65,10 +76,11 @@ class CartScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: cart.items.length,
                 itemBuilder: (context, index) => CartItemWidget(
-                  id: cart.items[index]!.id,
-                  price: cart.items[index]!.price,
-                  quantity: (cart.items[index]!.quantity) as int,
-                  title: cart.items[index]!.title,
+                  id: cart.items.values.toList()[index].id,
+                  productId: cart.items.keys.toList()[index],
+                  price: cart.items.values.toList()[index].price,
+                  quantity: (cart.items.values.toList()[index].quantity) as int,
+                  title: cart.items.values.toList()[index].title,
                 ),
               ),
             )

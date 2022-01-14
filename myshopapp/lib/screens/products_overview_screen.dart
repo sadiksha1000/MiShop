@@ -3,6 +3,7 @@ import 'package:myshopapp/providers/cart.dart';
 import 'package:myshopapp/providers/product.dart';
 import 'package:myshopapp/providers/products_provider.dart';
 import 'package:myshopapp/screens/cart_screen.dart';
+import 'package:myshopapp/widgets/app_drawer.dart';
 import 'package:myshopapp/widgets/badge.dart';
 import 'package:myshopapp/widgets/products_grid.dart';
 import 'package:provider/provider.dart';
@@ -76,6 +77,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(showFavs: _showOnlyFavorites),
     );
   }

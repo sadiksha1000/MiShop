@@ -38,8 +38,14 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
             backgroundColor: Colors.black87,
-            title: Text(product.title,
-                style: Theme.of(context).textTheme.bodyText2),
+            title: FittedBox(
+              child: Text(
+                product.title,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
             leading: Consumer<Product>(
               builder: (context, product, _) => IconButton(
                 icon: Icon(product.isFavorite
@@ -48,7 +54,7 @@ class ProductItem extends StatelessWidget {
                 onPressed: () {
                   product.toggleFavoriteStatus();
                 },
-                iconSize: 20,
+                iconSize: 17,
                 color: Theme.of(context).accentColor,
               ),
             ),
@@ -57,7 +63,7 @@ class ProductItem extends StatelessWidget {
               onPressed: () {
                 cart.addItem(product.id, product.price, product.title);
               },
-              iconSize: 20,
+              iconSize: 17,
               color: Theme.of(context).accentColor,
             )),
       ),
