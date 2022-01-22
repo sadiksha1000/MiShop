@@ -42,7 +42,7 @@ class ProductItem extends StatelessWidget {
               child: Text(
                 product.title,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 1,
                 ),
               ),
             ),
@@ -54,7 +54,7 @@ class ProductItem extends StatelessWidget {
                 onPressed: () {
                   product.toggleFavoriteStatus();
                 },
-                iconSize: 17,
+                iconSize: 22,
                 color: Theme.of(context).accentColor,
               ),
             ),
@@ -82,7 +82,7 @@ class ProductItem extends StatelessWidget {
                   ),
                 ));
               },
-              iconSize: 17,
+              iconSize: 22,
               color: Theme.of(context).accentColor,
             )),
       ),
