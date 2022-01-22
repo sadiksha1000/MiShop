@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:myshopapp/models/http_exception.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:convert';
@@ -64,6 +65,9 @@ class Products with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
+      if (extractedData == null) {
+        return;
+      }
       extractedData.forEach((productId, productData) {
         loadedProducts.add(Product(
           id: productId,
@@ -130,7 +134,20 @@ class Products with ChangeNotifier {
   }
 
   void deleteProduct(String id) {
-    _items.removeWhere((product) => product.id == id);
+    final url =
+        'https://mishop-ca657-default-rtdb.firebaseio.com/products/$id.json';
+    final existingProductIndex =
+        _items.indexWhere((product) => product.id == id);
+    Product? existingProduct = _items[existingProductIndex];
+    http.delete(Uri.parse(url)).then((response) {
+      if (response.statusCode >= 400) {
+        throw HttpException('Could not delete product!');
+      }
+      existingProduct = null;
+    }).catchError((_) {
+      _items.insert(existingProductIndex, existingProduct!);
+    });
+    _items.removeAt(existingProductIndex);
     notifyListeners();
   }
 }
